@@ -42,6 +42,7 @@ class EventoController extends Controller
         //Instanciamos la clase Pokemons
         $evento = new Evento;
         //Declaramos el nombre con el nombre enviado en el request
+        $evento->fechaini = $request->fechaini;
         $evento->machine = $request->machine;
         $evento->namevar = $request->namevar;
         $evento->valuevar = $request->valuevar;

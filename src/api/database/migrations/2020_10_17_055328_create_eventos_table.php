@@ -19,6 +19,7 @@ class CreateEventosTable extends Migration
             $table->string('machine');
             $table->string('namevar');
             $table->integer('valuevar');
+            $table->timestamps(); 
         });
     }
 
