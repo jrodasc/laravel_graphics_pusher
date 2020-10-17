@@ -15,10 +15,10 @@ class EventoController extends Controller
     public function index()
     {
         $eventos = Evento::select('id', 'fechaini','machine','namevar','valuevar')->get();
-        dd($eventos);
+        
 
-       // return response()->json(['foodtrucks' => $foodtrucks, 'error' => false]);
-        return EventoResource::collection($eventos);
+        return response()->json(['eventos' => $eventos, 'error' => false]);
+       // return EventoResource::collection($eventos);
     }
 
     /**
