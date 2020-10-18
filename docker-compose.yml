@@ -1,7 +1,8 @@
 version: '3'
 
 networks:
-  laravel:
+  vpn-net:
+    external: true
 
 services:
   site:
@@ -15,26 +16,8 @@ services:
       - ./src:/var/www/html:delegated
     depends_on:
       - php
-      - mysql
     networks:
-      - laravel
-
-  mysql:
-    image: mysql:5.7.29
-    container_name: mysql
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    networks:
-      - laravel
+      - vpn-net
 
   php:
     build:
@@ -46,7 +29,7 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - laravel
+      - vpn-net
 
   composer:
     build:
@@ -54,13 +37,13 @@ services:
       dockerfile: composer.dockerfile
     container_name: composer
     volumes:
-      - ./src:/var/www/html
-    working_dir: /var/www/html
+      - ./src/api:/var/www/html/api
+    working_dir: /var/www/html/api
     depends_on:
       - php
     user: laravel
     networks:
-      - laravel
+      - vpn-net
     entrypoint: ['composer', '--ignore-platform-reqs']
 
   npm:
@@ -77,11 +60,9 @@ services:
       dockerfile: php.dockerfile
     container_name: artisan
     volumes:
-      - ./src:/var/www/html:delegated
-    depends_on:
-      - mysql
+      - ./src/api:/var/www/html/api:delegated
     working_dir: /var/www/html
     user: laravel
-    entrypoint: ['php', '/var/www/html/artisan']
+    entrypoint: ['php', '/var/www/html/api/artisan']
     networks:
-      - laravel
+      - vpn-net

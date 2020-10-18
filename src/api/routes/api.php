@@ -20,4 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('employee', 'EmployeeController');
 Route::resource('evento', 'EventoController');
+Route::resource('fs92eventos', 'FS_92_EVENTOSController');
 //Route::resource('pokemons', 'PokemonController');
