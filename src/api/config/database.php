@@ -63,18 +63,6 @@ return [
             ]) : [],
         ],
 
-        'prdvs'  => [
-            'driver'     => 'mysql',
-            'host'       => env('PRDVS_HOST', 'localhost'),
-            'database'   => env('PRDVS_DATABASE', 'forge'),
-            'username'   => env('PRDVS_USERNAME', 'forge'),
-            'password'   => env('PRDVS_PASSWORD', ''),
-            'charset'    => 'utf8',
-            'collation'  => 'utf8_unicode_ci',
-            'prefix'     => '',
-            'strict'     => false,
-             ],
-
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

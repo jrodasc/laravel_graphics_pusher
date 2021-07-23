@@ -1,8 +1,7 @@
 version: '3'
 
 networks:
-  vpn-net:
-    external: true
+  laravel:
 
 services:
   site:
@@ -11,13 +10,13 @@ services:
       dockerfile: nginx.dockerfile
     container_name: nginx
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
       - php
     networks:
-      - vpn-net
+      - laravel
 
   php:
     build:
@@ -27,9 +26,9 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     ports:
-      - "9000:9000"
+      - "9002:9000"
     networks:
-      - vpn-net
+      - laravel
 
   composer:
     build:
@@ -43,15 +42,15 @@ services:
       - php
     user: laravel
     networks:
-      - vpn-net
+      - laravel
     entrypoint: ['composer', '--ignore-platform-reqs']
 
   npm:
     image: node:13.7
     container_name: npm
     volumes:
-      - ./src:/var/www/html
-    working_dir: /var/www/html
+      - ./src:/var/www/html/api
+    working_dir: /var/www/html/api
     entrypoint: ['npm']
 
   artisan:
@@ -65,4 +64,4 @@ services:
     user: laravel
     entrypoint: ['php', '/var/www/html/api/artisan']
     networks:
-      - vpn-net
+      - laravel
