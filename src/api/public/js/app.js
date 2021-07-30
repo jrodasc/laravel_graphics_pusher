@@ -1963,13 +1963,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     progressbar: vue_strap__WEBPACK_IMPORTED_MODULE_0__["progressbar"]
   },
+  props: ['status', 'initial', 'order_id'],
+  data: function data() {
+    return {
+      statusNew: this.status,
+      progress: this.initial
+    };
+  },
   mounted: function mounted() {
-    console.log('Component');
+    var _this = this;
+
+    window.Echo.channel('pizza-tracker.' + this.order_id).listen('OrderStatusChangedEvent', function (order) {
+      _this.statusNew = order.status_name;
+      _this.progress = order.status_percent;
+    });
   }
 });
 
@@ -43683,16 +43702,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "progress" },
-    [
-      _c("progressbar", {
-        attrs: { now: "50", label: "", type: "primary", striped: "" }
-      })
-    ],
-    1
-  )
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "progress" },
+      [
+        _c("progressbar", {
+          attrs: { now: _vm.progress, type: "primary", striped: "" }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "order-status" }, [
+      _c("strong", [_vm._v("Order Status:")]),
+      _vm._v(" " + _vm._s(_vm.statusNew) + " "),
+      _c("br"),
+      _vm._v(" "),
+      _vm.progress >= 100
+        ? _c("img", { attrs: { src: "/img/pizzaGif.gif", alt: "delivery" } })
+        : _vm._e()
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

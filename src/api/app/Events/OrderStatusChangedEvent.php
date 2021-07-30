@@ -21,9 +21,9 @@ class OrderStatusChangedEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Order $order)
     {
-        //$this->order = $order;
+        $this->order = $order;
     }
 
     /**
@@ -33,17 +33,17 @@ class OrderStatusChangedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // return new Channel('pizza-tracker.'.$this->order->id);
+         return new Channel('pizza-tracker.'.$this->order->id);
         // return ['pizza-tracker.' . $this->order->id, 'pizza-tracker'];
-        return new Channel('pizza-tracker');
+      //  return new Channel('pizza-tracker');
     }
 
-  /*  public function broadcastWith()
+    public function broadcastWith()
     {
         $extra = [
             'status_name' => $this->order->status->name,
             'status_percent' => $this->order->status->percent,
         ];
         return array_merge($this->order->toArray(), $extra);
-    }*/
+    }
 }
